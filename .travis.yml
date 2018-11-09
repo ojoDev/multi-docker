@@ -11,14 +11,14 @@ script:
 
 #Construye imagenes docker para cada proyecto
 after_success: 
-  - docker build -t ojodev/multi-client ./client
-  - docker build -t ojodev/multi-nginx ./nginx
-  - docker build -t ojodev/multi-server ./server
-  - docker build -t ojodev/multi-worker ./worker
+  - docker build -t davidmunozsantos/multi-client ./client
+  - docker build -t davidmunozsantos/multi-nginx ./nginx
+  - docker build -t davidmunozsantos/multi-server ./server
+  - docker build -t davidmunozsantos/multi-worker ./worker
   #Indicamos las variables de entorno de login de Docker que hemos configurado en Travis CI para logearnos en DockerHub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Ponemos las imagenes en Dockerhub
-  - docker push ojodev/multi-client
-  - docker push ojodev/multi-nginx
-  - docker push ojodev/multi-server
-  - docker push ojodev/multi-worker
+  - docker push davidmunozsantos/multi-client
+  - docker push davidmunozsantos/multi-nginx
+  - docker push davidmunozsantos/multi-server
+  - docker push davidmunozsantos/multi-worker
