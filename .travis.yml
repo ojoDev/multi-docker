@@ -5,10 +5,12 @@ services:
 before_install:
   - docker build -t ojodev/react-test -f ./client/Dockerfile.dev ./client
 
-script: #Test, se indica la version de projecto que pasa test del proyecto react (client)
+ #Test, se indica la version de projecto que pasa test del proyecto react (client)
+script:
   - docker run ojodev/react-test npm test -- --coverage
 
-after_sucess: #Construye imagenes docker para cada proyecto
+#Construye imagenes docker para cada proyecto
+after_success: 
   - docker build -t ojodev/multi-client ./client
   - docker build -t ojodev/multi-nginx ./nginx
   - docker build -t ojodev/multi-server ./server
