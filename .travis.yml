@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ojodev/react-test -f ./client/Dockerfile.dev ./client
+
+scripts: #Test, se indica la version de projecto que pasa test del proyecto react (client)
+  - docker run ojodev/react-test npm test -- --coverage
+
+after_sucess: #Construye imagenes docker para cada proyecto
+  - docker build -t ojodev/multi-client ./client
+  - docker build -t ojodev/multi-nginx ./nginx
+  - docker build -t ojodev/multi-server ./server
+  - docker build -t ojodev/multi-worker ./worker
+  #Indicamos las variables de entorno de login de Docker que hemos configurado en Travis CI para logearnos en DockerHub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Ponemos las imagenes en Dockerhub
+  - docker push ojodev/multi-client
+  - docker push ojodev/multi-nginx
+  - docker push ojodev/multi-server
+  - docker push ojodev/multi-worker
